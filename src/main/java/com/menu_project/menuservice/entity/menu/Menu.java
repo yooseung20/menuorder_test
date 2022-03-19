@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+
 import javax.persistence.*;
 
 @Entity
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-public class Menu {
+public class Menu extends {
 
     @Id
     @Column(name="menu_id")
