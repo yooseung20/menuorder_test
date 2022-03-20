@@ -20,10 +20,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/hello")
+   /* @GetMapping("/hello")
     public ResponseEntity<String> hello() {
         return ResponseEntity.ok("hello");
-    }
+    }*/
 
 
     @PostMapping("/signup")
@@ -45,7 +45,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserWithAuthorities(userPhone));
     }
 
-    @PostMapping("/login")
+    /*@PostMapping("/login")
     // 휴대폰 번호를 받음
     public ResponseEntity<String> login(String userPhone, HttpServletRequest request) {
         // 휴대폰 번호로 가입된 계정이 있는 지 확인
@@ -60,7 +60,7 @@ public class UserController {
             request.getSession().setAttribute("user", saveUser);
         }
         return ResponseEntity.ok(userPhone);
-    }
+    }*/
 }
 
 

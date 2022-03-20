@@ -20,7 +20,7 @@ public class UserService {
 
     @Transactional
     public UserDto signup(UserDto userDto) {
-        if (userRepository.findOneWithAuthoritiesByUserPhone(userDto.getUserPhone()).orElse(null) != null) {
+        if (userRepository.findByUserPhone(userDto.getUserPhone()) != null) {
             return userDto;
         }
 
@@ -38,7 +38,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserDto getUserWithAuthorities(String userPhone) {
-        return UserDto.from(userRepository.findOneWithAuthoritiesByUserPhone(userPhone).orElse(null));
+        return UserDto.from(userRepository.findByUserPhone(userPhone));
     }
 
     @Transactional(readOnly = true)
@@ -47,6 +47,10 @@ public class UserService {
     }
 
     public User findByPhonenumber(String userPhone){
-        return userRepository.findByPhonenumber(userPhone);
+        return userRepository.findByUserPhone(userPhone);
+    }
+
+    public User findByUserId(String userId) {
+        return userRepository.findById(Long.parseLong(userId)).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
     }
 }

@@ -1,24 +1,28 @@
 package com.menu_project.menuservice.jwt;
 
+import com.menu_project.menuservice.service.UserService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.stream.Collectors;
+
+import com.menu_project.menuservice.entity.user.User;
 
 @Component
 public class TokenProvider implements InitializingBean {
@@ -29,6 +33,9 @@ public class TokenProvider implements InitializingBean {
 
     private final String secret;
     private final long tokenValidityInMilliseconds;
+
+    @Autowired
+    private UserService userService;
 
     private Key key;
 
@@ -46,24 +53,25 @@ public class TokenProvider implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String createToken(Authentication authentication) {
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+    public String createToken(User user) {
+
+        //유저 인덱스 값을 넣은 토큰을 생성.
+        Claims claims = Jwts.claims().setSubject(user.getUserId().toString()); // claims 생성 및 payload 설정
+        //claims.put("roles", user.getAuthorities()); // 권한 설정, key/ value 쌍으로 저장
 
         long now = (new Date()).getTime();
         Date validity = new Date(now + this.tokenValidityInMilliseconds);
 
         return Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY, authorities)
+                .setSubject(user.getUserId().toString())
+                .claim(AUTHORITIES_KEY, claims)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();
     }
 
     // token  -> Authentication
-    public Authentication getAuthentication(String token) {
+    public Authentication getAuthentication(String token) { //유저 인덱스만 들어있음.
         Claims claims = Jwts
                 .parserBuilder()
                 .setSigningKey(key)
@@ -71,14 +79,15 @@ public class TokenProvider implements InitializingBean {
                 .parseClaimsJws(token)
                 .getBody();
 
-        Collection<? extends GrantedAuthority> authorities =
+       /* Collection<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                         .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toList());*/
 
-        User principal = new User(claims.getSubject(), "", authorities);
-
-        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+        User principal = userService.findByUserId(claims.getSubject());
+        //User principal = new User(claims.getSubject(), "", authorities)
+        //principal.getAuthorities()
+        return new UsernamePasswordAuthenticationToken(principal, token, Collections.singleton(new SimpleGrantedAuthority("ROLE_MEMBER")));
     }
 
     // token의 유효성 검사
