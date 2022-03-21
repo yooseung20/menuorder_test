@@ -34,7 +34,7 @@ public class UserDto {
     }
 
     public UsernamePasswordAuthenticationToken toAuthentication() {
-        return new UsernamePasswordAuthenticationToken(userPhone);
+        return new UsernamePasswordAuthenticationToken(userPhone, userPhone);
     }
 
 
