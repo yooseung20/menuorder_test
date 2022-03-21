@@ -1,10 +1,7 @@
 package com.menu_project.menuservice.config;
 
 
-import com.menu_project.menuservice.jwt.JwtAccessDeniedHandler;
-import com.menu_project.menuservice.jwt.JwtAuthenticationEntryPoint;
-import com.menu_project.menuservice.jwt.JwtSecurityConfig;
-import com.menu_project.menuservice.jwt.TokenProvider;
+import com.menu_project.menuservice.jwt.*;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -33,11 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
     }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
@@ -59,11 +51,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
 
-                // enable h2-console
+                .and()
+                .formLogin().disable()
+                .httpBasic()
                 .and()
                 .headers()
                 .frameOptions()
                 .sameOrigin()
+
 
                 // 세션을 사용하지 않기 때문에 STATELESS로 설정
                 .and()

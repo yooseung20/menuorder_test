@@ -5,14 +5,14 @@ spring:
       enabled: true
 
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost:3306/test
+    driver-class-name: com.mysql.cj.jdbc.Driver
     # org.maria.Driver ?? ??
-    username: sa
-    password:
+    username: root
+    password: 1234
 
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database: mysql
     hibernate:
       ddl-auto: none
     properties:
