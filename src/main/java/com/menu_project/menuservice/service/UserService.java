@@ -2,13 +2,12 @@ package com.menu_project.menuservice.service;
 
 import com.menu_project.menuservice.dto.UserDto;
 import com.menu_project.menuservice.repository.UserRepository;
-import com.menu_project.menuservice.entity.user.Authority;
 import com.menu_project.menuservice.entity.user.User;
 import com.menu_project.menuservice.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
+
 
 @Service
 public class UserService {
@@ -19,18 +18,15 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto signup(UserDto userDto) {
-        if (userRepository.findOneWithAuthoritiesByUserPhone(userDto.getUserPhone()).orElse(null) != null) {
+    public UserDto login(UserDto userDto) {
+        // DB에 사용자가 있으면, 사용자 return
+        if (userRepository.findByPhonenumber(userDto.getUserPhone()) != null) {
             return userDto;
         }
-
-        Authority authority = Authority.builder()
-                .authorityName("ROLE_USER")
-                .build();
-
+        // DB에 사용자가 없으면, DB에 저장후 Return
         User user = User.builder()
                 .userPhone(userDto.getUserPhone())
-                .authorities(Collections.singleton(authority))
+                .authority(userDto.getAuthority())
                 .build();
 
         return UserDto.from(userRepository.save(user));
@@ -38,15 +34,11 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserDto getUserWithAuthorities(String userPhone) {
-        return UserDto.from(userRepository.findOneWithAuthoritiesByUserPhone(userPhone).orElse(null));
+        return UserDto.from(userRepository.findByPhonenumber(userPhone));
     }
 
     @Transactional(readOnly = true)
     public UserDto getMyUserWithAuthorities() {
-        return UserDto.from(SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUserPhone).orElse(null));
-    }
-
-    public User findByPhonenumber(String userPhone){
-        return userRepository.findByPhonenumber(userPhone);
+        return UserDto.from(SecurityUtil.getCurrentUsername().flatMap(userRepository::findOneWithAuthoritiesByUsername).orElse(null));
     }
 }

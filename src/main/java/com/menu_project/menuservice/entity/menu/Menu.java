@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-public class Menu extends {
+public class Menu {
 
     @Id
     @Column(name="menu_id")

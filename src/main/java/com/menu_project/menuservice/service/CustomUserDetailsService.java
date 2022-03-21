@@ -1,44 +1,41 @@
 package com.menu_project.menuservice.service;
 
-import com.menu_project.menuservice.repository.UserRepository;
 import com.menu_project.menuservice.entity.user.User;
+import com.menu_project.menuservice.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 
-
-import java.util.List;
-
-import java.util.stream.Collectors;
-
-@Component("userDetailsService")
-public class CustomUserDetailsService {
+@Service
+@RequiredArgsConstructor
+public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public CustomUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-
+    @Override
     @Transactional
-    public User loadUserByUserPhone(final String userPhone) {
-        return userRepository.findOneWithAuthoritiesByUserPhone(userPhone)
-                .map(user -> createUser(userPhone, user))
-                .orElseThrow(() -> new UsernameNotFoundException(userPhone + " -> 데이터베이스에서 찾을 수 없습니다."));
+    public UserDetails loadUserByUsername(String userPhone) throws UsernameNotFoundException {
+        return createUserDetails (userRepository.findByPhonenumber(userPhone));
+    }
+    // phonenumber -> user(entity) -> UserDetail.User로 return 해야하는데,
+    // user(entity) -> UserDetail.User (설계가 달라서 어떻게 해야할지 모르겠음.)
+
+    // DB 에 User 값이 존재한다면 UserDetails 객체로 만들어서 리턴
+    private UserDetails createUserDetails(User user) {
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getAuthority().toString());
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getUserPhone(), // id -> phonenumber
+                user.getUserPhone(), // password -> phonenumber
+                Collections.singleton(grantedAuthority)
+        );
     }
 
-    private User createUser(String userPhone, User user) {
-        List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
-                .collect(Collectors.toList());
-
-        return user;
-        // USER에 grantedAuthority를 넣어준 객체를 반환해야함
-        // 기존 userdetails.User은 우리가 사용하는 user와 형태가 다름
-    }
 }
