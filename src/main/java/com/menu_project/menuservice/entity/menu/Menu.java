@@ -19,13 +19,18 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id; // 메뉴 코드
 
+    @Column(nullable=false)
+    private String type; // 메뉴 종류
+
     @Column(nullable=false, length = 50)
-    private String menuNm; // 메뉴 이름
+    private String menu_name; // 메뉴 이름
 
     @Column(name="price", nullable = false)
-    private int price; // 메뉴 가격
+    private Long price; // 메뉴 가격
 
-    @Enumerated(EnumType.STRING)
-    private MenuSellStatus menuSellStatus; // 상품 판매 상태
+//    @Enumerated(EnumType.STRING)
+//    private MenuSellStatus menuSellStatus; // 상품 판매 상태
+
+
 
 }

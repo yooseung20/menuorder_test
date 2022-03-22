@@ -1,0 +1,51 @@
+{{>layout/header}}
+    <H1>티오더 메뉴판 서비스 구현</H1>
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <!--머스테치는 다른 언어와 같은 if문을 제공하지 않음
+                  true/flase만 판단한다
+                  머스테치에서는 항상 최종값을 넘겨줘야 한다.
+                  userPhone이 있다면 userPhone 노출한다. -->
+                {{#userPhone}}
+                    Logged in as: <span id="user">{{userPhone}}</span>
+                    <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+                {{/userPhone}}
+                <!-- 스프링 시큐리티에서 기본적으로 제공하는 로그아웃 URL('/logout')
+                개발자가 별도로 컨트롤러 만들 필요 없음-->
+                {{^userPhone}}
+                    <a href="/login" class="btn btn-success active" role="button">Login/Signup</a>
+                {{/userPhone}}
+                <a href="/cart" role="button" class="btn btn-primary">장바구니</a>
+                <a href="/order" role="button" class="btn btn-primary">주문내역</a>
+                <a href="/payment" role="button" class="btn btn-primary">계산서</a>
+            </div>
+        </div>
+    </div>
+<!-- 목록 출력 영역 -->
+<table class="table table-horizontal table-bordered">
+    <thead class="thead-strong">
+    <tr>
+        <th>메뉴번호</th>
+        <th>종류</th>
+        <th>메뉴이름</th>
+        <th>가격</th>
+    </tr>
+    </thead>
+    <tbody id="tbody">
+
+<!--post 라는 list를 순회한다.-->
+<!--java의 for 문과 동일하게 생각하면 된다.-->
+    {{#menu}}
+        <tr>
+<!--list에서 뽑아낸 객체의 필드 -->
+            <td>{{id}}</td>
+            <td>{{type}}</td>
+            <td><a href="/cart">{{menu_name}}</a></td>
+            <td>{{price}}</td>
+        </tr>
+    {{/menu}}
+    </tbody>
+</table>
+</div>
+{{>layout/footer}}

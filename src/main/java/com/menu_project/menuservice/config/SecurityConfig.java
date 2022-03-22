@@ -2,13 +2,15 @@ package com.menu_project.menuservice.config;
 
 
 import com.menu_project.menuservice.jwt.*;
+import com.menu_project.menuservice.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @EnableWebSecurity
@@ -23,11 +25,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public SecurityConfig(
             TokenProvider tokenProvider,
             JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-            JwtAccessDeniedHandler jwtAccessDeniedHandler
-    ) {
+            JwtAccessDeniedHandler jwtAccessDeniedHandler,
+            CustomUserDetailsService customUserDetailsService) {
         this.tokenProvider = tokenProvider;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Override
@@ -37,7 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/h2-console/**"
                         ,"/favicon.ico"
                         ,"/error"
-                        ,"/api/menu"
                 );
     }
 
@@ -46,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 // token을 사용하는 방식이기 때문에 csrf를 disable
                 .csrf().disable()
-
+                .httpBasic().disable() // security에서 기본 제공하는 login 페이지 이용안함
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
@@ -67,15 +69,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/hello").permitAll()
+                .antMatchers("/").permitAll()
                 // token을 받기위한 api
-                .antMatchers("/api/authenticate").permitAll()
+                .antMatchers("/authenticate").permitAll()
                 // login(=signup)
-                .antMatchers("/api/login").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/cart","/order","/payment").permitAll()
 
-                .anyRequest().authenticated()
+                .anyRequest().authenticated() //그외 나머지 요청은 모두 인증된 회원만 접근 가능
 
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
+    }
+
+    private final CustomUserDetailsService customUserDetailsService;
+
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(customUserDetailsService);
     }
 }

@@ -48,7 +48,7 @@ public class TokenProvider {
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
-                .setSubject(authentication.getName())       // payload "sub": "user_id"
+                .setSubject(authentication.getName())       // payload "sub": "userPhone"
                 .claim(AUTHORITIES_KEY, authorities)        // payload "auth": "ROLE_USER"
                 .setExpiration(accessTokenExpiresIn)        // payload "exp": 1516239022 (예시)
                 .signWith(key, SignatureAlgorithm.HS512)    // header "alg": "HS512"
@@ -71,7 +71,6 @@ public class TokenProvider {
         }
 
         // 클레임에서 권한 정보 가져오기
-
         Collection<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                         .map(SimpleGrantedAuthority::new)

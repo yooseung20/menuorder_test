@@ -22,7 +22,7 @@ public class AuthService {
         // 1. Login Phonenumber 를 기반으로 AuthenticationToken 생성
         // email, password 대신 phonenumber -> UsernamePasswordAuthenticationToken
         // phonenumber를 기준으로 authenticationToken을 못만들고 있음
-        UsernamePasswordAuthenticationToken authenticationToken = UserDto.toAuthentication();
+        UsernamePasswordAuthenticationToken authenticationToken = userDto.toAuthentication();
 
         //authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);

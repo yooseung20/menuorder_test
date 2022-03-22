@@ -1,4 +1,4 @@
-package com.menu_project.menuservice.entity.cart;
+package com.menu_project.menuservice.vo;
 
 import lombok.Getter;
 import lombok.Setter;
