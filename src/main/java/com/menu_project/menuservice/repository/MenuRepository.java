@@ -1,5 +1,6 @@
-package com.menu_project.menuservice.entity.menu;
+package com.menu_project.menuservice.repository;
 
+import com.menu_project.menuservice.entity.menu.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

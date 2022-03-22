@@ -33,10 +33,10 @@ public class UserService {
         return UserDto.from(userRepository.save(user));
     }
 
-    @Transactional(readOnly = true)
-    public UserDto getUserWithAuthorities(String userPhone) {
-        return UserDto.from(userRepository.findByPhonenumber(userPhone));
-    }
+//    @Transactional(readOnly = true)
+//    public UserDto getUserWithAuthorities(String userPhone) {
+//        return UserDto.from(userRepository.findByPhonenumber(userPhone));
+//    }
 
     @Transactional(readOnly = true)
     public UserDto getMyUserWithAuthorities() {

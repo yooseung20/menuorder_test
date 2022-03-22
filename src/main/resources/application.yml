@@ -5,9 +5,11 @@ spring:
       enabled: true
 
   datasource:
-    url: jdbc:mysql://localhost:3306/test
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    # org.maria.Driver ?? ??
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:userdb;DB_CLOSE_DELAY=-1
+    #url: jdbc:mysql://localhost:3306/test
+    #driver-class-name: com.mysql.cj.jdbc.Driver
+
     username: root
     password: 1234
 

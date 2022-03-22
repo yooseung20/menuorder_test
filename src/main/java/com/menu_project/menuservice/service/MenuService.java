@@ -2,7 +2,7 @@ package com.menu_project.menuservice.service;
 
 
 import com.menu_project.menuservice.dto.MenuListDto;
-import com.menu_project.menuservice.entity.menu.MenuRepository;
+import com.menu_project.menuservice.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
