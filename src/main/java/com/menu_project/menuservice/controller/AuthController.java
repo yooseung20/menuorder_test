@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,10 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthService authService;
 
-    @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody UserDto userDto) {
-        return ResponseEntity.ok(authService.login(userDto));
+    // 인증서 발급
+    @PostMapping("/authentication")
+    public ResponseEntity<TokenDto> authorize(@RequestBody UserDto userDto) {
+        TokenDto tokenDto = authService.login(userDto);
+        return ResponseEntity.ok(tokenDto);
     }
+
 
 
 }

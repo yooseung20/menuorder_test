@@ -37,6 +37,7 @@ public class TokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
+
     public TokenDto generateTokenDto(Authentication authentication) {
         // 권한들 가져오기
         String authorities = authentication.getAuthorities().stream()

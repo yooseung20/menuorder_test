@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Table(name = "user")
 @Getter
 @Setter
-@Builder
+
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
@@ -25,9 +25,9 @@ public class User {
     private Authority authority;
 
     @Builder
-    public User(String userPhone) {
+    public User(String userPhone, Authority authority){
         this.userPhone = userPhone;
-        this.authority = Authority.ROLE_USER;
+        this.authority = authority;
     }
 
 }

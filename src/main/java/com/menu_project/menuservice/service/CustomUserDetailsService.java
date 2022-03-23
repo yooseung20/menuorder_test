@@ -1,6 +1,9 @@
 package com.menu_project.menuservice.service;
 
 
+
+import com.menu_project.menuservice.dto.UserDto;
+import com.menu_project.menuservice.entity.user.Authority;
 import com.menu_project.menuservice.entity.user.User;
 import com.menu_project.menuservice.repository.UserRepository;
 import com.menu_project.menuservice.vo.CustomUserDetails;
@@ -21,8 +24,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     // loadUserByUsername(userPhone) -> 휴대폰 번호로 유저정보 확인
+    // 유저 정보가 없으면, db save
     public CustomUserDetails loadUserByUsername(String userPhone) throws UsernameNotFoundException {
-        return createUserDetails (userRepository.findByPhonenumber(userPhone));
+        User user = userRepository.findByPhonenumber(userPhone);
+        if (user == null){
+            userRepository.save(new UserDto(userPhone, Authority.ROLE_USER).toEntity());
+            user = userRepository.findByPhonenumber(userPhone);
+        }
+        return createUserDetails(user);
     }
 
     // phonenumber -> user(entity) -> CustomUserDetail로 return 해야하는데,

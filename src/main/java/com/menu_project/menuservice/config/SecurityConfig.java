@@ -3,7 +3,6 @@ package com.menu_project.menuservice.config;
 
 import com.menu_project.menuservice.jwt.*;
 import com.menu_project.menuservice.service.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -71,10 +70,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 // token을 받기위한 api
-                .antMatchers("/authenticate").permitAll()
+                .antMatchers("/authenticate").authenticated()
                 // login(=signup)
                 .antMatchers("/login").permitAll()
-                .antMatchers("/cart","/order","/payment").permitAll()
+                .antMatchers("/cart","/order","/receipt").permitAll()
 
                 .anyRequest().authenticated() //그외 나머지 요청은 모두 인증된 회원만 접근 가능
 

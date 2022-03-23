@@ -3,7 +3,6 @@ package com.menu_project.menuservice.service;
 import com.menu_project.menuservice.dto.TokenDto;
 import com.menu_project.menuservice.dto.UserDto;
 import com.menu_project.menuservice.jwt.TokenProvider;
-import com.menu_project.menuservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

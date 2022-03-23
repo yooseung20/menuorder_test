@@ -14,7 +14,6 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
 
@@ -23,15 +22,17 @@ public class UserDto {
     private String userPhone;
     private Authority authority;
 
-    public static UserDto from(User user) {
-        if(user == null){
-            return null;}
-
-        return UserDto.builder()
-                .userPhone(user.getUserPhone())
-                .authority(user.getAuthority())
-                .build();
-    }
+   @Builder
+   public UserDto(String userPhone, Authority authority){
+       this.userPhone = userPhone;
+       this.authority = authority;
+   }
+   public User toEntity(){
+       return User.builder()
+               .userPhone(userPhone)
+               .authority(authority)
+               .build();
+   }
 
     public UsernamePasswordAuthenticationToken toAuthentication() {
         return new UsernamePasswordAuthenticationToken(userPhone, userPhone);

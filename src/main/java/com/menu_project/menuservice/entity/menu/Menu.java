@@ -12,6 +12,7 @@ import javax.persistence.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Menu {
 
     @Id
@@ -19,10 +20,10 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id; // 메뉴 코드
 
-    @Column(nullable=false)
+    @Column(nullable=false, name="type")
     private String type; // 메뉴 종류
 
-    @Column(nullable=false, length = 50)
+    @Column(nullable=false, length = 50, name="menu_name")
     private String menu_name; // 메뉴 이름
 
     @Column(name="price", nullable = false)
