@@ -1,8 +1,8 @@
 package com.menu_project.menuservice.controller;
 
 import com.menu_project.menuservice.config.LoginUser;
-import com.menu_project.menuservice.entity.user.User;
 import com.menu_project.menuservice.service.MenuService;
+import com.menu_project.menuservice.vo.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +15,7 @@ public class HomeController {
 
 
     @GetMapping("/")
-    public String home(Model model, @LoginUser User user){
+    public String home(Model model, @LoginUser CustomUserDetails user){
         model.addAttribute("menu", menuService.findAllDesc());
 
         // 로그인 성공시 token Dto -> 어디에 저장되는가??? ->  SecurityContext 에 저장
@@ -24,7 +24,7 @@ public class HomeController {
         // SecurityContext에 저장된 값이 있을 때만 model userPhone으로 등록한다.
         // SecurityContext에 저장된 값이 없으면 model엔 아무런 값이 없는 상태이므로, 로그인 버튼이 보임
         if (user!=null){
-            model.addAttribute("userPhone", user.getUserPhone());
+            model.addAttribute("userPhone", user.getUsername()); // userPhone을 내뱉도록 override
         }
         return "home";
     }
