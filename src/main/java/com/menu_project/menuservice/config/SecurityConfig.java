@@ -20,12 +20,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final CustomUserDetailsService customUserDetailsService;
 
     public SecurityConfig(
             TokenProvider tokenProvider,
             JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
             JwtAccessDeniedHandler jwtAccessDeniedHandler,
             CustomUserDetailsService customUserDetailsService) {
+
         this.tokenProvider = tokenProvider;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
@@ -70,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 // token을 받기위한 api
-                .antMatchers("/authenticate").authenticated()
+                .antMatchers("/authenticate").permitAll()
                 // login(=signup)
                 .antMatchers("/login").permitAll()
                 .antMatchers("/cart","/order","/receipt").permitAll()
@@ -81,7 +83,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .apply(new JwtSecurityConfig(tokenProvider));
     }
 
-    private final CustomUserDetailsService customUserDetailsService;
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
