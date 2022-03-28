@@ -16,7 +16,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserResponseDto getMyInfo() {
         // 현재 user 정보를 가져와서, userResponse 생성
-        return userRepository.findByphonenumber(SecurityUtil.getCurrentUserPhone().get())
+        return userRepository.findByUserPhone(SecurityUtil.getCurrentUserPhone().get())
                 .map(UserResponseDto::of)
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
     }

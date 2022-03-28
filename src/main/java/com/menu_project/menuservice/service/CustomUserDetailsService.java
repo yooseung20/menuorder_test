@@ -25,10 +25,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     // loadUserByUsername(userPhone) -> 휴대폰 번호로 유저정보 확인
     // 유저 정보가 없으면, db save
     public CustomUserDetails loadUserByUsername(String userPhone) {
-        User user = userRepository.findByphonenumber(userPhone).get();
+        User user = userRepository.findByUserPhone(userPhone).get();
         if (user == null){
             userRepository.save(new UserRequestDto(userPhone, Authority.ROLE_USER).toEntity());
-            user = userRepository.findByphonenumber(userPhone).get();
+            user = userRepository.findByUserPhone(userPhone).get();
         }
         return createUserDetails(user);
 

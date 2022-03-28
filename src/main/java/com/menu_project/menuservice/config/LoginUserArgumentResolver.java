@@ -5,6 +5,7 @@ import com.menu_project.menuservice.dto.TokenDto;
 import com.menu_project.menuservice.vo.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -21,11 +22,11 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
     @Override
     // 컨트롤러 메서드의 특정 파라미터를 지원하는지 판단한다.
-    // @LoginUser 어노테이션이 붙어있고, 파라미터 클래스 타입이 CustomUserDetails.class인 경우 True
+    // @LoginUser 어노테이션이 붙어있고, 파라미터 클래스 타입이 Authentication.class인 경우-> 수정하기
     public boolean supportsParameter(MethodParameter parameter){
             boolean isLoginUserAnnotation =
                 parameter.getParameterAnnotation(LoginUser.class) != null;
-        boolean isUserClass = CustomUserDetails.class.equals(parameter.getParameterType());
+        boolean isUserClass = Authentication.class.equals(parameter.getParameterType());
         return isLoginUserAnnotation && isUserClass;
     }
 

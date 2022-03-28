@@ -12,5 +12,5 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     // userPhone을 기준으로 user 정보를 가져온다.
-    Optional<User> findByphonenumber(String userPhone);
+    Optional<User> findByUserPhone(String userPhone);
 }

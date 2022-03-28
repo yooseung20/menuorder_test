@@ -14,7 +14,7 @@ public class HomeController {
     private final MenuService menuService;
 
 
-    @GetMapping("/")
+    @GetMapping("/") // @LoginUser 수정하기
     public String home(Model model, @LoginUser CustomUserDetails user){
         model.addAttribute("menu", menuService.findAllDesc());
 
