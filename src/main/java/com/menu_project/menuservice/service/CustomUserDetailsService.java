@@ -1,8 +1,6 @@
 package com.menu_project.menuservice.service;
 
-
-
-import com.menu_project.menuservice.dto.UserDto;
+import com.menu_project.menuservice.dto.UserRequestDto;
 import com.menu_project.menuservice.entity.user.Authority;
 import com.menu_project.menuservice.entity.user.User;
 import com.menu_project.menuservice.repository.UserRepository;
@@ -14,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 
 
 @Service
@@ -25,13 +24,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional
     // loadUserByUsername(userPhone) -> 휴대폰 번호로 유저정보 확인
     // 유저 정보가 없으면, db save
-    public CustomUserDetails loadUserByUsername(String userPhone) throws UsernameNotFoundException {
-        User user = userRepository.findByPhonenumber(userPhone);
+    public CustomUserDetails loadUserByUsername(String userPhone) {
+        User user = userRepository.findByphonenumber(userPhone).get();
         if (user == null){
-            userRepository.save(new UserDto(userPhone, Authority.ROLE_USER).toEntity());
-            user = userRepository.findByPhonenumber(userPhone);
+            userRepository.save(new UserRequestDto(userPhone, Authority.ROLE_USER).toEntity());
+            user = userRepository.findByphonenumber(userPhone).get();
         }
         return createUserDetails(user);
+
     }
 
     // phonenumber -> user(entity) -> CustomUserDetail로 return 해야하는데,
@@ -42,8 +42,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         CustomUserDetails userDetail = new CustomUserDetails();
 
-        userDetail.setUSERPHONE(user.getUserPhone());
-        userDetail.setAUTHORITY(user.getAuthority().toString());
+        userDetail.setUserphone(user.getUserPhone());
+        userDetail.setAuthorities(user.getAuthority().toString());
 
         return userDetail;
     }

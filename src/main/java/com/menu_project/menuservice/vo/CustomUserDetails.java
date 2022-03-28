@@ -1,5 +1,10 @@
 package com.menu_project.menuservice.vo;
 
+import com.menu_project.menuservice.entity.user.Authority;
+
+import com.menu_project.menuservice.entity.user.User;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -7,30 +12,49 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Setter
+@Getter
+@RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
-    private String USERPHONE;
-    private String AUTHORITY;
-    private boolean ENABLED;
 
+    private String userphone;
+    private String authorities;
+    private boolean enable;
+
+
+    public CustomUserDetails(String userphone, String authorities) {
+
+        this.userphone = userphone;
+        this.authorities = authorities;
+    }
+
+
+//    public static CustomUserDetails create(User user) {
+//        return new CustomUserDetails(
+//                user.getUserPhone(),
+//                user.getAuthority().toString()
+//        );
+//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
-        auth.add(new SimpleGrantedAuthority(AUTHORITY));
-        return auth;
+            ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
+            auth.add(new SimpleGrantedAuthority(authorities));
+            return auth;
     }
 
     @Override
     public String getUsername() {
-        return USERPHONE;
+        return userphone;
     }
 
     @Override
     public String getPassword() {
-        return USERPHONE;
+        return userphone;
     }
 
     @Override
@@ -50,12 +74,8 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return ENABLED;
+        return enable;
     }
-
-
-
-
 
 
 }

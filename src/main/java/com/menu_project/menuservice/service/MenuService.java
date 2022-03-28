@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
-@Service // 비지니스 로직을 수행한다.
+@Service
 public class MenuService {
         private final MenuRepository menuRepository;
 

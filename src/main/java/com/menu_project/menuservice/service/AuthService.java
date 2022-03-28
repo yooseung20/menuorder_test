@@ -1,7 +1,7 @@
 package com.menu_project.menuservice.service;
 
 import com.menu_project.menuservice.dto.TokenDto;
-import com.menu_project.menuservice.dto.UserDto;
+import com.menu_project.menuservice.dto.UserRequestDto;
 import com.menu_project.menuservice.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,7 +17,7 @@ public class AuthService {
     private final TokenProvider tokenProvider;
 
     @Transactional
-    public TokenDto login(UserDto userDto) {
+    public TokenDto login(UserRequestDto userDto) {
         // 1. Login Phonenumber 를 기반으로 AuthenticationToken 생성
         // email, password 대신 phonenumber -> UsernamePasswordAuthenticationToken
         // phonenumber를 기준으로 authenticationToken을 못만들고 있음

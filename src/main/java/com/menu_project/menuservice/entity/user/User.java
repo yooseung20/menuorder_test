@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Table(name = "user")
 @Getter
 @Setter
-
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
