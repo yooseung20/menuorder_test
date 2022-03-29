@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
     private final MenuService menuService;
 
-
     @GetMapping("/") // @LoginUser 수정하기
     public String home(Model model, @LoginUser CustomUserDetails user){
         model.addAttribute("menu", menuService.findAllDesc());
@@ -26,6 +25,11 @@ public class HomeController {
         }
 
         return "home";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 
 }

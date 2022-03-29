@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+
     @GetMapping("/me")
     public ResponseEntity<UserResponseDto> getMyMemberInfo() {
         return ResponseEntity.ok(userService.getMyInfo());
     }
+
 }
