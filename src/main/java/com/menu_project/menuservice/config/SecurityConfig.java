@@ -30,7 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/h2-console/**"
                         , "/favicon.ico"
-                        , "/error");
+                        , "/error"
+                        , "/css/**", "/images/**", "/js/**");
     }
 
     @Override
@@ -59,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 // token을 받기위한 api
-                .antMatchers("/authenticate").permitAll()
+                .antMatchers("/authentication").permitAll()
                 // login(=signup)
                 .antMatchers("/login").permitAll()
                 .antMatchers("/cart", "/order", "/receipt").permitAll()

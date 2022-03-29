@@ -22,29 +22,19 @@ public class CustomUserDetails implements UserDetails {
 
 
     private String userphone;
-    private String authorities;
-    private boolean enable;
+    private Collection<? extends GrantedAuthority> authorities;
 
 
-    public CustomUserDetails(String userphone, String authorities) {
+    public CustomUserDetails(String userphone, Collection<? extends GrantedAuthority> authorities) {
 
         this.userphone = userphone;
         this.authorities = authorities;
     }
 
 
-//    public static CustomUserDetails create(User user) {
-//        return new CustomUserDetails(
-//                user.getUserPhone(),
-//                user.getAuthority().toString()
-//        );
-//    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-            ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
-            auth.add(new SimpleGrantedAuthority(authorities));
-            return auth;
+            return authorities;
     }
 
     @Override
@@ -74,8 +64,9 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enable;
+        return true;
     }
+
 
 
 }

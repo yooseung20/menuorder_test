@@ -23,6 +23,7 @@ public class AuthService {
         // phonenumber를 기준으로 authenticationToken을 못만들고 있음
         UsernamePasswordAuthenticationToken authenticationToken = userDto.toAuthentication();
 
+        // 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         //authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 

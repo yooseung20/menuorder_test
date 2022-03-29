@@ -7,12 +7,16 @@ import com.menu_project.menuservice.repository.UserRepository;
 import com.menu_project.menuservice.vo.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
 @Service
@@ -34,18 +38,25 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     }
 
-    // phonenumber -> user(entity) -> CustomUserDetail로 return 해야하는데,
-    // -> userPhone 정보를 넘기도록 설정
-
-    // DB 에 User 값이 존재한다면 UserDetails 객체로 만들어서 리턴
+    // DB 에 User 값이 존재한다면(존재하지 않은 경우 x -> 정보 없으면 db 저장) UserDetails 객체로 만들어서 리턴
     private CustomUserDetails createUserDetails(User user) {
 
         CustomUserDetails userDetail = new CustomUserDetails();
 
         userDetail.setUserphone(user.getUserPhone());
-        userDetail.setAuthorities(user.getAuthority().toString());
+        userDetail.setAuthorities(getAuthorities(user.getUserPhone()));
 
         return userDetail;
     }
+
+    public Collection<GrantedAuthority> getAuthorities(String userPhone) {
+        User user = userRepository.findByUserPhone(userPhone).get();
+        Authority auth = user.getAuthority();
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(auth.toString()));
+        return authorities;
+    }
+
+
 
 }

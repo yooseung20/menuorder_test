@@ -1,6 +1,8 @@
 package com.menu_project.menuservice.service;
 
+import com.menu_project.menuservice.dto.UserRequestDto;
 import com.menu_project.menuservice.dto.UserResponseDto;
+import com.menu_project.menuservice.entity.user.Authority;
 import com.menu_project.menuservice.entity.user.User;
 import com.menu_project.menuservice.repository.UserRepository;
 import com.menu_project.menuservice.util.SecurityUtil;

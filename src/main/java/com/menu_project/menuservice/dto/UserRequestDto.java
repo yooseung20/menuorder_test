@@ -4,11 +4,14 @@ import com.menu_project.menuservice.entity.user.Authority;
 import com.menu_project.menuservice.entity.user.User;
 import lombok.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -35,7 +38,9 @@ public class UserRequestDto {
    }
 
     public UsernamePasswordAuthenticationToken toAuthentication() {
-        return new UsernamePasswordAuthenticationToken(userPhone, userPhone);
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(authority.toString()));
+        return new UsernamePasswordAuthenticationToken(userPhone, userPhone, authorities);
     }
 
 
