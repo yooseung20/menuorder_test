@@ -1,6 +1,6 @@
 package com.menu_project.menuservice.controller;
 
-import com.menu_project.menuservice.dto.UserResponseDto;
+import com.menu_project.menuservice.dto.UserDto;
 import com.menu_project.menuservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/me")
-    public ResponseEntity<UserResponseDto> getMyMemberInfo() {
+    public ResponseEntity<UserDto> getMyMemberInfo() {
         return ResponseEntity.ok(userService.getMyInfo());
     }
 
