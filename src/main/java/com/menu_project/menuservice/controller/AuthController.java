@@ -20,11 +20,14 @@ public class AuthController {
 
     // 인증서 발급 -> authService.login -> 에러 발생
     @PostMapping("/authentication")
-    public ResponseEntity<TokenDto> authorize(@RequestBody UserDto userDto) {
-      TokenDto tokenDto = authService.login(userDto);
-      HttpHeaders httpHeaders = new HttpHeaders();
-      httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, tokenDto.getGrantType() + tokenDto.getAccessToken());
-      return ResponseEntity.ok(tokenDto);
+    public ResponseEntity<TokenDto> authorize(@RequestBody String userPhone) {
+        UserDto userDto = new UserDto(userPhone);
+        TokenDto tokenDto = authService.login(userDto);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, tokenDto.getGrantType() + tokenDto.getAccessToken());
+
+        return ResponseEntity.ok(tokenDto);
     }
 
 

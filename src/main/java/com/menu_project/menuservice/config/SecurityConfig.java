@@ -3,6 +3,7 @@ package com.menu_project.menuservice.config;
 
 import com.menu_project.menuservice.jwt.*;
 import com.menu_project.menuservice.service.CustomUserDetailsService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -22,6 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final CustomUserDetailsService customUserDetailsService;
+
 
     // h2 database 테스트가 원활하도록 관련 API 들은 전부 무시
     @Override
