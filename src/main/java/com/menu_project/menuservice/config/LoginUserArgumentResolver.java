@@ -15,7 +15,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 
 // session을 이용하지않고, jwt token 이용
-@RequiredArgsConstructor
 @Component
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
     private SecurityContext securityContext;

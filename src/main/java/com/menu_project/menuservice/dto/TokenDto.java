@@ -3,7 +3,6 @@ package com.menu_project.menuservice.dto;
 import lombok.*;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class TokenDto {

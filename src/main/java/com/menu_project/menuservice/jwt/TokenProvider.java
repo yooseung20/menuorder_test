@@ -1,7 +1,6 @@
 package com.menu_project.menuservice.jwt;
 
 import com.menu_project.menuservice.dto.TokenDto;
-import com.menu_project.menuservice.entity.user.Authority;
 import com.menu_project.menuservice.vo.CustomUserDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;

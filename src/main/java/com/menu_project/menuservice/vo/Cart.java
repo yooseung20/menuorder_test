@@ -15,7 +15,5 @@ public class Cart {
     private Date cart_cklimit; //쿠키제한시간(삭제용)
     private String cart_ckid; //쿠키value값
 
-    private String cart_option_content; //옵션내용
-    private int cart_option_no; //옵션
 
 }

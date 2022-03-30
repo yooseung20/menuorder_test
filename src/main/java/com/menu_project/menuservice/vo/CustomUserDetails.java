@@ -28,8 +28,6 @@ public class CustomUserDetails extends User implements UserDetails {
 
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
-    private static final Log logger = LogFactory.getLog(org.springframework.security.core.userdetails.User.class);
-
     private String password;
 
     private String username;

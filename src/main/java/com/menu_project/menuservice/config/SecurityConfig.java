@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
+
 @RequiredArgsConstructor
 @EnableWebSecurity // Spring Security 활성화
 // @PreAuthorize 어노테이션을 메소드 단위로 추가하기 위한 목적

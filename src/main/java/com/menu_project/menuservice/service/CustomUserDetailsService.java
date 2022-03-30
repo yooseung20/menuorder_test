@@ -30,22 +30,26 @@ public class CustomUserDetailsService implements UserDetailsService {
     // loadUserByUsername(userPhone) -> 휴대폰 번호로 유저정보 확인
     // 유저 정보가 없으면, db save
     public CustomUserDetails loadUserByUsername(String userPhone) {
-        System.out.println("loadbyuser실행");
+        System.out.println("//////////loadbyuser실행//////////");
+        String selecteduser = userPhone.substring(14,25); //// userphone  {"userphone":"01011111111"} 형태인것을 확인
 
-        User user = userRepository.findByUserPhone(userPhone);
-        System.out.println("userinfo 얻기 시도");
+        User user = userRepository.findByUserPhone(selecteduser);
+        System.out.println("//////////userinfo 얻기 시도//////////");
 
         if (user == null){
-            System.out.println("db에 유저 정보 없음");
-            UserDto userDto = new UserDto(userPhone);
-            System.out.println("UserDto 생성");
-            System.out.println(userDto.getUserPhone()); // -> userPhone을 바탕으로 UserDto 생성 불가, 빈 값을 받아옴
+            System.out.println("//////////db에 유저 정보 없음//////////");
+            UserDto userDto = new UserDto(selecteduser);
+            System.out.println("//////////UserDto 생성//////////");
+            System.out.println(userDto.getUserPhone());
 
             userRepository.save(userDto.toEntity());
-            System.out.println("db에 없어서 저장");
+            System.out.println("//////////db에 없어서 저장//////////");
 
-            user = userRepository.findByUserPhone(userPhone);
-            System.out.println("db에 저장후 얻기");
+            user = userRepository.findByUserPhone(selecteduser);
+            System.out.println("//////////db에 저장후 얻기//////////");
+            System.out.println("user id : " + user.getUserId());
+            System.out.println("user phone : " + user.getUserPhone());
+            System.out.println("user authority : " + user.getAuthority());
         }
         return createUserDetails(user);
 
