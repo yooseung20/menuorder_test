@@ -1,32 +1,37 @@
 package com.menu_project.menuservice.entity.user;
 
-import lombok.*;
+import com.menu_project.menuservice.util.JpaBooleanConverter;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 
 @Entity
-@Table(name = "user")
+@Table
 @Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
     @Id
-    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(name = "user_phone", length = 11, unique = true)
-    private String userPhone;
+    private String phone;
+
+    // 실제 입력받은 값과 db에 저장되는 값을 다르게 설정
+    @Convert(converter=JpaBooleanConverter.class)
+    private boolean privacyOk;
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
     @Builder
-    public User(String userPhone, Authority authority){
-        this.userPhone = userPhone;
-        this.authority = authority;
+    public User(String phone, boolean privacyOk) {
+        this.phone = phone;
+        this.privacyOk = privacyOk;
+        this.authority = Authority.NOMAL;
     }
-
 }
