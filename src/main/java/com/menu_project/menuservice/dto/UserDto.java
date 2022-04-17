@@ -39,6 +39,7 @@ public class UserDto {
 
     // 로그인을 시도할 때 만들어줄 Dto
     @Getter
+    @NoArgsConstructor
     public static class Login{
         @Pattern(regexp = phoneRegexp, message = "잘못된 휴대폰번호입니다.")
         private String phone;

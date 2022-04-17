@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 
-@RestController
-@RequiredArgsConstructor
-@RequestMapping("/api/user")
+
 public class UserController {
     private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Validated UserDto.Register userDto, BindingResult bindingResult) {
@@ -48,5 +50,16 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userInfo);
 
     }
+    // session logout 처리
+    @PostMapping("/logout/session")
+    public ResponseEntity sessionLogout(HttpSession session){
+        // 세션에 저장하고있는 값이 있는지 확인
+        if(session != null){
+            // 세션 reset (세션에 있는 모든 정보를 없애준다)
+            session.invalidate();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("로그아웃 되었습니다.");
+    }
+
 
 }

@@ -5,17 +5,19 @@ import com.menu_project.menuservice.entity.user.User;
 import com.menu_project.menuservice.repository.UserRepository;
 import com.menu_project.menuservice.util.error_Exception.CustomException;
 import com.menu_project.menuservice.util.error_Exception.ErrorCode;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
+
     private final UserRepository userRepository;
 
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     // 로그인 처리하고 -> userId를 넘겨준다.
     public Long register(UserDto.Register userDto){
