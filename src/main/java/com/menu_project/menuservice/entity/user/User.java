@@ -10,7 +10,6 @@ import javax.persistence.*;
 
 
 @Entity
-@Table
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {

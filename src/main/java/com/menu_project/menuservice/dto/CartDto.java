@@ -1,5 +1,6 @@
 package com.menu_project.menuservice.dto;
 
+import com.menu_project.menuservice.entity.menu_order.Menu;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,27 +10,19 @@ import java.util.List;
 
 public class CartDto {
 
-    // 장바구니 추가시 필요한 dto
-    @Getter
-    @Setter
-    public static class Item{
-        private Long menuId;
-        private String menuName;
-        private int foodAmount;
-        private int foodPrice;
-        private int foodTotalPrice;
-
-    }
     // session에 저장할 dto
     @Getter
     @Setter
     public static class CartList{
         private int totalPrice;
-        private List<CartDto.Item> cartList;
 
-        public CartList(int totalPrice, List<Item> cartList) {
+        private List<MenuDto.CartMenu> cartList;
+
+        public CartList(int totalPrice, List<MenuDto.CartMenu> cartList) {
             this.totalPrice = totalPrice;
             this.cartList = cartList;
         }
     }
+
+
 }

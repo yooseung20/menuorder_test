@@ -2,6 +2,7 @@ package com.menu_project.menuservice.controller;
 
 import com.menu_project.menuservice.dto.CartDto;
 
+import com.menu_project.menuservice.dto.MenuDto;
 import com.menu_project.menuservice.util.FoodPriceCalc;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,32 +28,32 @@ public class CartController {
 
 
     @PostMapping("/add")
-    public CartDto.CartList addCart(@RequestBody CartDto.Item cart, HttpSession session) {
+    public CartDto.CartList addCart(@RequestBody MenuDto.InputMenu menuInfo, HttpSession session) {
 
         CartDto.CartList cartList = (CartDto.CartList) session.getAttribute("cartList");
-        int totalPrice = FoodPriceCalc.priceCalc(cart);
+        int totalPrice = FoodPriceCalc.priceCalc(menuInfo);
 
         System.out.println("카트 가격 계산 = " + totalPrice);
 
         // 기존 카트에 아무값도 없으면, 카트 생성
         if (cartList == null) {
-            List<CartDto.Item> newCart = new ArrayList<>();
-            cart.setFoodTotalPrice(totalPrice);
-            newCart.add(cart);
+            List<MenuDto.CartMenu> newCart = new ArrayList<>();
+            menuInfo.setFoodTotalPrice(totalPrice);
+            newCart.add(new MenuDto.CartMenu(menuInfo));
             cartList = new CartDto.CartList(totalPrice, newCart);
         } else {
             // 카트에 기존 내역이 있는경우 prevCart, prevCartTotal(가격)
-            List<CartDto.Item> prevCart = cartList.getCartList();
+            List<MenuDto.CartMenu> prevCart = cartList.getCartList();
             int prevCartTotal = cartList.getTotalPrice();
             // cart에 총액을 갱신해준다.
             cartList.setTotalPrice(prevCartTotal + totalPrice);
 
             // 기존내역이랑 중복되는 메뉴가 들어오는 경우 -> cartList 속 index 값을 찾아서 , amount , price를 고쳐준다.
-            if (prevCart.contains(cart)) {
-                int cartIndex = prevCart.indexOf(cart);
-                int amount = cart.getFoodAmount();
+            if (prevCart.contains(menuInfo)) {
+                int cartIndex = prevCart.indexOf(menuInfo);
+                int amount = menuInfo.getFoodAmount();
 
-                CartDto.Item newCart = prevCart.get(cartIndex);
+                MenuDto.CartMenu newCart = prevCart.get(cartIndex);
                 int newAmount = newCart.getFoodAmount() + amount;
                 int newTotal = newCart.getFoodTotalPrice() + totalPrice;
 
@@ -61,8 +62,8 @@ public class CartController {
                 prevCart.set(cartIndex, newCart);
             } else {
                 // 기존내역이랑 중복되는 메뉴가 아닌경우 ->  카트에 추가, 총액 계산
-                cart.setFoodTotalPrice(totalPrice);
-                prevCart.add(cart);
+                menuInfo.setFoodTotalPrice(totalPrice);
+                prevCart.add(new MenuDto.CartMenu(menuInfo));
             }
             cartList.setCartList(prevCart); // cartList안 cart에 추가된 내용을 다시 세팅한다.
         }
@@ -93,7 +94,7 @@ public class CartController {
         // 수정 전 최종 금액
         int totalPrice = cartList.getTotalPrice();
         System.out.println("수정전 금액을 불러왔습니다. : " + totalPrice);
-        List<CartDto.Item> prevCart = cartList.getCartList();
+        List<MenuDto.CartMenu> prevCart = cartList.getCartList();
         System.out.println("수정전 카트에 담긴 메뉴를 불러왔습니다. : " + prevCart);
 
         // 없애야 할 금액
