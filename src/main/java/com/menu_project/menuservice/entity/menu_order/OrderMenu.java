@@ -6,9 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import torder.tabletorder.domain.dto.BasketDTO;
 
+
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -37,6 +36,7 @@ public class OrderMenu {
         this.count = count;
     }
 
+<<<<<<< HEAD
     //Order에 추가할 List<OrderMenu>
     public static List<OrderMenu> createOrderMenuList(List<BasketDTO> basketList){
         List<OrderMenu> orderMenuList = new ArrayList<>();
@@ -60,4 +60,6 @@ public class OrderMenu {
                 ", count=" + count +
                 '}';
     }
+=======
+>>>>>>> 770717b (test)
 }

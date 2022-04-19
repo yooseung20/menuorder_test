@@ -4,7 +4,7 @@ import com.menu_project.menuservice.dto.CartDto;
 import com.menu_project.menuservice.dto.MenuDto;
 
 public class FoodPriceCalc {
-    public static int priceCalc(MenuDto.InputMenu cart){
+    public static int priceCalc(MenuDto.MenuInfo cart){
         int foodPrice = cart.getFoodPrice() * cart.getFoodAmount();
         return foodPrice;
     }

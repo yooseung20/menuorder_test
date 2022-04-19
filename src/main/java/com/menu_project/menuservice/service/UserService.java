@@ -32,7 +32,7 @@ public class UserService {
         });
 
         User user = userRepository.save(userDto.toEntity());
-        return user.getUserId();
+        return user.getId();
     }
 
     public UserDto.UserInfo sessionLogin(UserDto.Login userDto, HttpSession session){

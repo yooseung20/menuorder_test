@@ -11,33 +11,36 @@ public class MenuDto {
     @Getter
     @Setter
     @NoArgsConstructor
-    public static class InputMenu{
+    public static class MenuInfo {
         private Long menuId;
+        private String category;
         private String menuName;
         private int foodPrice;
-
         private int foodAmount;
-        private int foodTotalPrice;
-        }
 
+    }
+
+    // 카트에 넣기위한 dto
     @NoArgsConstructor
     @Getter
     @Setter
-    public static class CartMenu{
+    public static class CartMenu {
 
         private Menu menu;
         private int foodAmount;
         private int foodTotalPrice;
 
-        public CartMenu(InputMenu menuInfo) {
-            this.menu = new Menu(menuInfo.menuId, menuInfo.foodPrice);
-            this.foodAmount = foodAmount;
-            this.foodTotalPrice = foodAmount * menuInfo.foodPrice;
-        }
-    }
 
-    @Getter
-    public static class MenuInfoList{
-
+    public CartMenu(MenuDto.MenuInfo menuInfo) {
+        Menu menu  = new Menu(menuInfo.getMenuId(), menuInfo.getCategory(), menuInfo.getMenuName(), menuInfo.getFoodPrice());
+        this.menu = menu;
+        this.foodAmount = menuInfo.getFoodAmount();
+        this.foodTotalPrice = menuInfo.getFoodPrice() * menuInfo.getFoodAmount();
     }
+}
+
+
+
+
+
 }

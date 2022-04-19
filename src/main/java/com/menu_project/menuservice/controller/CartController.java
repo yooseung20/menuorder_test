@@ -28,7 +28,7 @@ public class CartController {
 
 
     @PostMapping("/add")
-    public CartDto.CartList addCart(@RequestBody MenuDto.InputMenu menuInfo, HttpSession session) {
+    public CartDto.CartList addCart(@RequestBody MenuDto.MenuInfo menuInfo, HttpSession session) {
 
         CartDto.CartList cartList = (CartDto.CartList) session.getAttribute("cartList");
         int totalPrice = FoodPriceCalc.priceCalc(menuInfo);
@@ -38,7 +38,6 @@ public class CartController {
         // 기존 카트에 아무값도 없으면, 카트 생성
         if (cartList == null) {
             List<MenuDto.CartMenu> newCart = new ArrayList<>();
-            menuInfo.setFoodTotalPrice(totalPrice);
             newCart.add(new MenuDto.CartMenu(menuInfo));
             cartList = new CartDto.CartList(totalPrice, newCart);
         } else {
@@ -49,9 +48,11 @@ public class CartController {
             cartList.setTotalPrice(prevCartTotal + totalPrice);
 
             // 기존내역이랑 중복되는 메뉴가 들어오는 경우 -> cartList 속 index 값을 찾아서 , amount , price를 고쳐준다.
-            if (prevCart.contains(menuInfo)) {
-                int cartIndex = prevCart.indexOf(menuInfo);
-                int amount = menuInfo.getFoodAmount();
+            // 중복 메뉴를 확인하지 못하고 있음!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            MenuDto.CartMenu checkCartMenu = new MenuDto.CartMenu(menuInfo);
+            if (prevCart.contains(checkCartMenu)) {
+                int cartIndex = prevCart.indexOf(checkCartMenu);
+                int amount = checkCartMenu.getFoodAmount();
 
                 MenuDto.CartMenu newCart = prevCart.get(cartIndex);
                 int newAmount = newCart.getFoodAmount() + amount;
@@ -62,7 +63,6 @@ public class CartController {
                 prevCart.set(cartIndex, newCart);
             } else {
                 // 기존내역이랑 중복되는 메뉴가 아닌경우 ->  카트에 추가, 총액 계산
-                menuInfo.setFoodTotalPrice(totalPrice);
                 prevCart.add(new MenuDto.CartMenu(menuInfo));
             }
             cartList.setCartList(prevCart); // cartList안 cart에 추가된 내용을 다시 세팅한다.

@@ -38,6 +38,18 @@ public class Order {
         int orderPrice = 0;
         for (OrderMenu orderMenu : orderMenuList) {
             orderMenu.setOrder(order);
+<<<<<<< HEAD
+=======
+
+            int menuPrice = orderMenu.getMenu().getFoodPrice();
+            int menuCount = orderMenu.getCount();
+            orderPrice = orderPrice + (menuPrice * menuCount);
+        }
+        order.orderPrice = orderPrice;
+        order.orderMenuList = orderMenuList;
+        return order;
+    }
+>>>>>>> 770717b (test)
 
             int menuPrice = orderMenu.getMenu().getPrice();
             int menuCount = orderMenu.getCount();

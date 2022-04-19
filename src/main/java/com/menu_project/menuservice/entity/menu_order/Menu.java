@@ -1,8 +1,11 @@
 package com.menu_project.menuservice.entity.menu_order;
 
 import lombok.*;
+<<<<<<< HEAD
 import torder.tabletorder.domain.enums.SaleStatus;
 import torder.tabletorder.util.JpaBooleanConverter;
+=======
+>>>>>>> 770717b (test)
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,6 +25,7 @@ public class Menu {
 
     private int foodPrice;
 
+<<<<<<< HEAD
     private LocalDateTime createTime = LocalDateTime.now();
 
 
@@ -34,4 +38,13 @@ public class Menu {
     }
     //builderClassName을 사용하지 않으면 여러 @Builder가 생길때 내부클래스들끼리 서로 공유되어서 원하지 않는 필드에 값을 입력할 수 있게된다.
 
+=======
+
+    public Menu(Long id, String category, String foodName, int foodPrice) {
+        this.id = id;
+        this.category = category;
+        this.foodName = foodName;
+        this.foodPrice = foodPrice;
+    }
+>>>>>>> 770717b (test)
 }
