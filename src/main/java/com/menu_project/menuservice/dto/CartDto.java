@@ -1,8 +1,6 @@
 package com.menu_project.menuservice.dto;
 
-import com.menu_project.menuservice.entity.menu_order.Menu;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;

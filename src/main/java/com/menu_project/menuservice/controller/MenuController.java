@@ -1,14 +1,11 @@
 package com.menu_project.menuservice.controller;
 
-import com.menu_project.menuservice.entity.menu_order.Menu;
 import com.menu_project.menuservice.service.MenuService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -24,7 +21,6 @@ public class MenuController {
     @GetMapping("/menu")
     public ResponseEntity getMenuList(){
         //어떤 타입으로 받게 될지 지정하지 못함
-        menuService.getAllMenus();
         return ResponseEntity.status(HttpStatus.OK).body("how to...");
     }
 
